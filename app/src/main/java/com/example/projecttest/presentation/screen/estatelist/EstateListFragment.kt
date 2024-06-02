@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.projecttest.AppApplication
 import com.example.projecttest.R
 import com.example.projecttest.databinding.FragmentEstateListBinding
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.presentation.root.navigation.FragmentRouter
 import com.example.projecttest.presentation.screen.detail.EstateDetailFragment
 import com.example.projecttest.presentation.screen.estatelist.adapter.EstateListAdapter
+import javax.inject.Inject
 
 class EstateListFragment : Fragment(), EstateListAdapter.EstateListener {
 
@@ -23,8 +25,11 @@ class EstateListFragment : Fragment(), EstateListAdapter.EstateListener {
         FragmentEstateListBinding.bind(requireView())
     }
 
-    private val viewModel by lazy {
-        ViewModelProvider(this)[EstateListViewModel::class.java]
+    @Inject
+    lateinit var viewModel: EstateListViewModel
+
+    private val component by lazy {
+        (requireActivity().application as AppApplication).component
     }
 
     private val estateListAdapter by lazy {
@@ -37,6 +42,8 @@ class EstateListFragment : Fragment(), EstateListAdapter.EstateListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        component.inject(this)
+
         if (context is FragmentRouter) {
             router = context
         } else {

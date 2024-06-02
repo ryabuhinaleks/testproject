@@ -1,5 +1,6 @@
 package com.example.projecttest.presentation.screen.detail
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.projecttest.AppApplication
 import com.example.projecttest.R
 import com.example.projecttest.databinding.FragmentEstateDetailBinding
 import com.example.projecttest.presentation.root.navigation.withArguments
+import com.example.projecttest.presentation.screen.estatelist.EstateListViewModel
+import javax.inject.Inject
 
 class EstateDetailFragment : Fragment() {
 
@@ -19,8 +23,16 @@ class EstateDetailFragment : Fragment() {
         FragmentEstateDetailBinding.bind(requireView())
     }
 
-    private val viewModel by lazy {
-        ViewModelProvider(this)[EstateDetailViewModel::class.java]
+    @Inject
+    lateinit var viewModel: EstateDetailViewModel
+
+    private val component by lazy {
+        (requireActivity().application as AppApplication).component
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component.inject(this)
     }
 
     override fun onCreateView(

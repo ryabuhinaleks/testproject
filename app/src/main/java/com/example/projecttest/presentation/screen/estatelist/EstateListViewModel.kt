@@ -11,14 +11,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EstateListViewModel() : ViewModel() {
-
-    // Without DI
-    private val repository = EstateObjectRepositoryImpl()
-
-    private val getEstateObjectListUseCase = GetEstateObjectListUseCase(repository)
-    private val deleteEstateObjectUseCase = DeleteEstateObjectUseCase(repository)
+class EstateListViewModel @Inject constructor(
+    private val getEstateObjectListUseCase: GetEstateObjectListUseCase,
+    private val deleteEstateObjectUseCase: DeleteEstateObjectUseCase
+) : ViewModel() {
 
     private val scope = CoroutineScope(Dispatchers.IO)
 

@@ -2,13 +2,16 @@ package com.example.projecttest.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.projecttest.AppApplication
+import com.example.projecttest.data.database.dao.EstateObjectDao
 import com.example.projecttest.data.mapper.toDB
 import com.example.projecttest.data.mapper.toDomain
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.domain.repository.EstateObjectRepository
+import javax.inject.Inject
 
-class EstateObjectRepositoryImpl : EstateObjectRepository {
-    private val estateObjectDao = AppApplication.estateDb
+class EstateObjectRepositoryImpl @Inject constructor(
+    private val estateObjectDao: EstateObjectDao
+) : EstateObjectRepository {
 
     override fun getEstateObjectList(): LiveData<List<EstateObject>> {
         return estateObjectDao.getList().toDomain()

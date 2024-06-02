@@ -5,18 +5,11 @@ import android.content.Context
 import androidx.room.Room
 import com.example.projecttest.data.database.EstateDataBase
 import com.example.projecttest.data.database.dao.EstateObjectDao
+import com.example.projecttest.di.DaggerApplicationComponent
 
 class AppApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        estateDatabase =
-            EstateDataBase.getInstance(applicationContext)
-        estateDb = estateDatabase.getEstateDao()
-    }
-
-    companion object {
-        lateinit var estateDatabase: EstateDataBase
-        lateinit var estateDb: EstateObjectDao
+    val component by lazy {
+        DaggerApplicationComponent.factory().create(this)
     }
 }

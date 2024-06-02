@@ -9,13 +9,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EstateDetailViewModel() : ViewModel() {
-
-    // Without DI
-    private val repository = EstateObjectRepositoryImpl()
-
-    private val getEstateDetailObjectUseCase = GetEstateDetailObjectUseCase(repository)
+class EstateDetailViewModel @Inject constructor(
+    private val getEstateDetailObjectUseCase: GetEstateDetailObjectUseCase
+) : ViewModel() {
 
     val estateObject = MutableLiveData<EstateObject>()
 
