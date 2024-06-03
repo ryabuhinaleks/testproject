@@ -2,22 +2,18 @@ package com.example.projecttest.presentation.screen.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.projecttest.data.repository.EstateObjectRepositoryImpl
+import androidx.lifecycle.ViewModelProvider
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.domain.usecase.GetEstateDetailObjectUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import com.example.projecttest.presentation.root.BaseViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EstateDetailViewModel @Inject constructor(
     private val getEstateDetailObjectUseCase: GetEstateDetailObjectUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     val estateObject = MutableLiveData<EstateObject>()
-
-    private val scope = CoroutineScope(Dispatchers.IO)
 
     fun getEstateObjectById(id: Int) {
         scope.launch {
@@ -25,8 +21,14 @@ class EstateDetailViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        scope.cancel()
+    @Suppress("UNCHECKED_CAST")
+    class Factory @Inject constructor(
+        private val getEstateDetailObjectUseCase: GetEstateDetailObjectUseCase
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return EstateDetailViewModel(
+                getEstateDetailObjectUseCase = getEstateDetailObjectUseCase
+            ) as T
+        }
     }
 }

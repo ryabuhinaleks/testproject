@@ -1,24 +1,18 @@
 package com.example.projecttest.presentation.screen.estatelist
 
 import androidx.lifecycle.ViewModel
-import com.example.projecttest.data.repository.EstateObjectRepositoryImpl
+import androidx.lifecycle.ViewModelProvider
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.domain.usecase.DeleteEstateObjectUseCase
-import com.example.projecttest.domain.usecase.GetEstateAddObjectUseCase
-import com.example.projecttest.domain.usecase.GetEstateDetailObjectUseCase
 import com.example.projecttest.domain.usecase.GetEstateObjectListUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import com.example.projecttest.presentation.root.BaseViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EstateListViewModel @Inject constructor(
     private val getEstateObjectListUseCase: GetEstateObjectListUseCase,
     private val deleteEstateObjectUseCase: DeleteEstateObjectUseCase
-) : ViewModel() {
-
-    private val scope = CoroutineScope(Dispatchers.IO)
+) : BaseViewModel() {
 
     val estateObjectList = getEstateObjectListUseCase.execute()
 
@@ -28,8 +22,17 @@ class EstateListViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        scope.cancel()
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory @Inject constructor(
+        private val getEstateObjectListUseCase: GetEstateObjectListUseCase,
+        private val deleteEstateObjectUseCase: DeleteEstateObjectUseCase
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return EstateListViewModel(
+                getEstateObjectListUseCase = getEstateObjectListUseCase,
+                deleteEstateObjectUseCase = deleteEstateObjectUseCase
+            ) as T
+        }
     }
 }
