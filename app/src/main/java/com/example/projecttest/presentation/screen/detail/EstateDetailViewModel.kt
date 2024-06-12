@@ -3,20 +3,20 @@ package com.example.projecttest.presentation.screen.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.domain.usecase.GetEstateDetailObjectUseCase
-import com.example.projecttest.presentation.root.BaseViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EstateDetailViewModel @Inject constructor(
     private val getEstateDetailObjectUseCase: GetEstateDetailObjectUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     val estateObject = MutableLiveData<EstateObject>()
 
     fun getEstateObjectById(id: Int) {
-        scope.launch {
+        viewModelScope.launch {
             estateObject.postValue(getEstateDetailObjectUseCase.execute(id))
         }
     }

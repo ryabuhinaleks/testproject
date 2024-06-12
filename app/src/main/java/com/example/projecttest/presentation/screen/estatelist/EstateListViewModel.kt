@@ -2,22 +2,22 @@ package com.example.projecttest.presentation.screen.estatelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.domain.usecase.DeleteEstateObjectUseCase
 import com.example.projecttest.domain.usecase.GetEstateObjectListUseCase
-import com.example.projecttest.presentation.root.BaseViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EstateListViewModel @Inject constructor(
     private val getEstateObjectListUseCase: GetEstateObjectListUseCase,
     private val deleteEstateObjectUseCase: DeleteEstateObjectUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     val estateObjectList = getEstateObjectListUseCase.execute()
 
     fun deleteEstateObject(item: EstateObject) {
-        scope.launch {
+        viewModelScope.launch {
             deleteEstateObjectUseCase.execute(item)
         }
     }
