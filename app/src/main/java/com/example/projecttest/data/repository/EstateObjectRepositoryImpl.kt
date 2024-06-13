@@ -1,7 +1,6 @@
 package com.example.projecttest.data.repository
 
 import androidx.lifecycle.LiveData
-import com.example.projecttest.AppApplication
 import com.example.projecttest.data.database.dao.EstateObjectDao
 import com.example.projecttest.data.mapper.toDB
 import com.example.projecttest.data.mapper.toDomain

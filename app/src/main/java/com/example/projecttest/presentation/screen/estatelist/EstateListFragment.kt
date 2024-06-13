@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projecttest.AppApplication
 import com.example.projecttest.R
@@ -15,7 +14,6 @@ import com.example.projecttest.databinding.FragmentEstateListBinding
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.presentation.root.navigation.FragmentRouter
 import com.example.projecttest.presentation.screen.detail.EstateDetailFragment
-import com.example.projecttest.presentation.screen.detail.EstateDetailViewModel
 import com.example.projecttest.presentation.screen.estatelist.adapter.EstateListAdapter
 import javax.inject.Inject
 

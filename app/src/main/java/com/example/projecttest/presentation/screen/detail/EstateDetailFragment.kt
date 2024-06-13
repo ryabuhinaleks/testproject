@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.projecttest.AppApplication
 import com.example.projecttest.R
 import com.example.projecttest.databinding.FragmentEstateDetailBinding
 import com.example.projecttest.presentation.root.navigation.withArguments
-import com.example.projecttest.presentation.screen.estatelist.EstateListViewModel
 import javax.inject.Inject
 
 class EstateDetailFragment : Fragment() {
