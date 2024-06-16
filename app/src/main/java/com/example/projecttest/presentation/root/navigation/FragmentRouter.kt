@@ -4,4 +4,5 @@ import androidx.fragment.app.Fragment
 
 interface FragmentRouter {
     fun forward(fragment: Fragment)
+    fun close()
 }

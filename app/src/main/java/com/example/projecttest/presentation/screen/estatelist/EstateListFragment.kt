@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projecttest.AppApplication
-import com.example.projecttest.R
 import com.example.projecttest.databinding.FragmentEstateListBinding
 import com.example.projecttest.domain.model.EstateObject
 import com.example.projecttest.presentation.root.navigation.FragmentRouter
+import com.example.projecttest.presentation.screen.add.EstateAddFragment
 import com.example.projecttest.presentation.screen.detail.EstateDetailFragment
 import com.example.projecttest.presentation.screen.estatelist.adapter.EstateListAdapter
 import javax.inject.Inject
@@ -21,9 +21,8 @@ class EstateListFragment : Fragment(), EstateListAdapter.EstateListener {
 
     private var router: FragmentRouter? = null
 
-    private val binding by lazy {
-        FragmentEstateListBinding.bind(requireView())
-    }
+    private lateinit var binding: FragmentEstateListBinding
+    private lateinit var listAdapter: EstateListAdapter
 
     @Inject
     lateinit var factory: EstateListViewModel.Factory
@@ -35,13 +34,6 @@ class EstateListFragment : Fragment(), EstateListAdapter.EstateListener {
         (requireActivity().application as AppApplication).component
     }
 
-    private val estateListAdapter by lazy {
-        EstateListAdapter(this)
-    }
-
-    private val linearLayoutManager by lazy {
-        LinearLayoutManager(context)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,24 +50,33 @@ class EstateListFragment : Fragment(), EstateListAdapter.EstateListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_estate_list, container, false)
+    ): View {
+        binding = FragmentEstateListBinding.inflate(inflater, container, false)
+        listAdapter = EstateListAdapter(this)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initData()
+        initListener()
     }
 
     private fun initRecyclerView() = with(binding.list) {
-        layoutManager = linearLayoutManager
-        adapter = estateListAdapter
+        layoutManager = LinearLayoutManager(context)
+        adapter = listAdapter
     }
 
     private fun initData() {
         viewModel.estateObjectList.observe(viewLifecycleOwner) { items ->
-            estateListAdapter.submitList(items)
+            listAdapter.submitList(items)
+        }
+    }
+
+    private fun initListener() = with(binding) {
+        actionButton.setOnClickListener {
+            router?.forward(EstateAddFragment.newInstance())
         }
     }
 

@@ -21,11 +21,14 @@ class MainActivity : AppCompatActivity(), FragmentRouter {
     }
 
     override fun forward(fragment: Fragment) {
-        val name = fragment::class.simpleName
         supportFragmentManager
             .beginTransaction()
             .replace(container.id, fragment)
-            .addToBackStack(name)
+            .addToBackStack(null)
             .commit()
+    }
+
+    override fun close() {
+        supportFragmentManager.popBackStack()
     }
 }
